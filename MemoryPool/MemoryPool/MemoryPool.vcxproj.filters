@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pool">
+      <UniqueIdentifier>{23b61a71-206d-4839-a533-202f3e2e1568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{3aefc0f0-b54e-45e7-8367-010665793f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Third Party">
+      <UniqueIdentifier>{6a32eecc-bb3d-4e5c-a120-b93309d6005e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\MemoryPool.cpp">
+      <Filter>Pool</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Archive.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Log.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Timer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tests.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\getopt\getopt.c">
+      <Filter>Third Party</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\MemoryBlock.h">
+      <Filter>Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MemoryPool.h">
+      <Filter>Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Archive.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Log.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tests.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\getopt\getopt.h">
+      <Filter>Third Party</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Defs.h" />
+  </ItemGroup>
+</Project>
