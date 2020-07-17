@@ -26,19 +26,32 @@ There are 2 other modes in which the program can be run:
 
 --- INSTRUCTIONS ---
     - There are a few command line options that can be sent to the program in order to execute its different modes. If no argument is specified, the program will
-      run the default test (4 speed tests + 4 random allocation speed tests) with default pool paramaters (1024 blocks of 128 bytes).
+      run the default test (4 speed tests + 4 random allocation speed tests) with default pool paramaters (1024 blocks of 128 bytes). All arguments must
+      include a value.
     - Command line arguments:
-	- b (int) Amount of blocks for the pool. Defaults to 1024
-	- s (int) Size of each block in bytes. Defaults to 128
-	- v	  Executes 'Verbose mode' (see explanation above). If can also work with -b and -s parameters
-	- f	  Executes 'Bruteforce mode' (see explanation above). It will ignore all the other parameters and execute tests at random.
-		  This mode will take a while to execute (5 to 10 minutes) as it will perform ~10^5 tests in total. The test results can be seen during the process.
+	- t (int) Specifies the test mode to perform
+			0 - Default: 		Executes 4 speed tests + 4 random allocation speed tests
+			1 - Verbose: 		Executes 'Verbose mode' (see explanation above). If can also work with -b and -s parameters
+			2 - Bruteforce: 	Executes 'Bruteforce mode' (see explanation above). It will ignore all the other parameters and execute tests at random.
+		  				This mode will take a while to execute (5 to 10 minutes) as it will perform ~10^5 tests in total.
+						The test results can be seen during the process.
+			3 - Individual Speed 	Executes 1 speed test. 
+			4 - Individual Random	Executes 1 random allocation speed test.
 
-	- i (int) Executes an individual test of the specified type (0 for simple speed test, 1 for random allocation speed test).
-		  If this argument is specified, it MUST contain -a and -c
-	- a (int) Amount of memory allocated in each iteration of the test. Only used if -i was specified
-	- c (int) Amount of iterations (cycles) of the test. Only used if -i was specified
-	- r (int) Initial memory ratio allocated from the pool (range 0 to 100). Only used if -i was specified as 1 - 'random allocation speed test'
+	- b (int) Amount of blocks for the pool. Works with all test modes except 'Bruteforce'
+		  Valid range from 1 to 10.000. Defaults to 1024.
+
+	- s (int) Size of each block in bytes. Works with all test modes except 'Bruteforce'.
+		  Valid range from 1 to 2.048. Defaults to 128.
+
+	- m (int) Amount of memory allocated in each iteration of the test. Only used if an 'Individual Test' was specified.
+		  Valid range from 1 to 'block size * block count'. Defaults to 'block size'.
+
+	- c (int) Amount of iterations (cycles) of the test.
+		  Valid range from 1 to 10.000. The amount of cycles will be reduced if the test would overrun the pool's capacity.
+			
+	- r (int) Initial memory ratio allocated from the pool. Only used if test mode (t) is specified to 4 - Individual Random.
+		  Valid range from 0 to 100. Defaults to 100.
 
 
 --- DEVELOPMENT APPROACH ---

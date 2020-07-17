@@ -6,6 +6,55 @@
 #include "Archive.h"
 #include "MemoryPool.h"
 
+void Tests::GenericTest(TestSettings& settings)
+{
+	switch ((TestType)settings.testType)
+	{
+		case(TestType::Default):
+		{
+			FullTestsOnSinglePool(settings.blockSize, settings.blocks);
+			break;
+		}
+		case(TestType::Verbose):
+		{
+			SimpleVerbosityTest(settings.blockSize, settings.blocks);
+			break;
+		}
+		case(TestType::Bruteforce):
+		{
+			BruteForceTest();
+			break;
+		}
+		case(TestType::Individual_Speed):
+		{
+			if (memoryPool != nullptr)
+				delete memoryPool;
+
+			memoryPool = new MemoryPool(settings.blockSize, settings.blocks);
+
+			SimpleSpeedTest(settings.memoryAllocatedPerCycle, settings.testCycles, true);
+			SimpleSpeedTest(settings.memoryAllocatedPerCycle, settings.testCycles, false);
+
+			delete memoryPool;
+			memoryPool = nullptr;
+			break;
+		}
+		case(TestType::Individual_Random):
+		{
+			if (memoryPool != nullptr)
+				delete memoryPool;
+
+			memoryPool = new MemoryPool(settings.blockSize, settings.blocks);
+
+			SpeedTest_RandomAfterAllocation(settings.memoryAllocatedPerCycle, settings.testCycles, (float)settings.memoryRatioAllocated / 100.0f);
+
+			delete memoryPool;
+			memoryPool = nullptr;
+			break;
+		}
+	}
+}
+
 void Tests::FullTestsOnSinglePool(size_t blockSize, uint blocks)
 {
 	if (memoryPool != nullptr)
@@ -101,7 +150,7 @@ void Tests::SimpleVerbosityTest(size_t blockSize, uint blocks)
 	uint memorySize = blockSize * 0.5f;
 	if (memorySize < 1) memorySize = 1;  //<- Just in case we receive a really small pool
 
-	uint cycles = blocks / 2; //We will be filling half the pool, so we can check that non-allocated memory is also ok.
+	uint cycles = blocks / 2u; //We will be filling half the pool, so we can check that non-allocated memory is also ok.
 	if (cycles < 1) cycles = 1;
 	PerformSimpleVerbosityTest(memorySize, cycles, "SmallChunks");
 	
@@ -153,7 +202,7 @@ bool Tests::PerformSimpleVerbosityTest(size_t memorySize, uint cycles, const cha
 
 	//We will be storing all allocations in this array.
 	char** arr = new char* [cycles];
-	for (uint i = 0; i < cycles; ++i)
+	for (uint i = 0u; i < cycles; ++i)
 	{
 		arr[i] = (char*)memoryPool->Reserve(memorySize);
 
@@ -189,9 +238,9 @@ uint Tests::PerformSimpleSpeedTest(size_t memorySize, uint cycles, bool freeAfte
 {
 	//We will be storing all allocations in this array in case we need to free the memory after the test
 	char** arr = new char* [cycles];
-	uint averagedResults = 0;
+	uint averagedResults = 0u;
 
-	for (uint i = 0; i < testsToPerform; ++i)
+	for (uint i = 0u; i < testsToPerform; ++i)
 	{
 		//Starting actual performance test
 		Timer::start();
@@ -244,7 +293,7 @@ bool Tests::SpeedTest_RandomAfterAllocation(size_t memorySize, uint cycles, floa
 
 uint Tests::PrepareSpeedTest_RandomAfterAllocation(uint memorySize, uint cycles, uint testsPerformed, float initialMemoryRatio, bool usePool)
 {
-	uint averagedResults = 0;
+	uint averagedResults = 0u;
 
 	//In order to avoid contaminating the test as much as possible, all random calculations will be done before the test.
 	//We will be running the whole random simulation here and storing the random results in two arrays which will be used during the test
@@ -306,7 +355,7 @@ uint Tests::PrepareSpeedTest_RandomAfterAllocation(uint memorySize, uint cycles,
 				uint deallocationIndex = std::rand() % allocationsCount;
 
 				//Search through all allocations done so far until we reach the one to remove
-				for (uint j = 0, allocationIndex = 0; j < maxAllocations; ++j)
+				for (uint j = 0u, allocationIndex = 0u; j < maxAllocations; ++j)
 				{
 					if (arr[j] == &fakePtr)
 					{
@@ -385,7 +434,7 @@ void Tests::BruteForceTest(uint testsPerformed)
 {
 	LOG(LogColor::Cyan, "STARTING BRUTEFORCE TEST ----------------------------\n\n");
 
-	for (uint testIndex = 0; testIndex < testsPerformed; ++testIndex)
+	for (uint testIndex = 0u; testIndex < testsPerformed; ++testIndex)
 	{
 		uint blockSize = rand() % MAX_BLOCK_SIZE + 1;
 		uint blocks = (rand() % MAX_BLOCKS) + 1;

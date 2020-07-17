@@ -23,7 +23,7 @@ MemoryPool::MemoryPool(std::size_t blockSize, uint totalBlocks) : totalBlocks(to
 	MemoryBlock* prevBlock;
 
 	//Initialize all block data
-	for (uint i = 0; i < totalBlocks; ++i)
+	for (uint i = 0u; i < totalBlocks; ++i)
 	{
 		unsigned char* blockDataPtr = data + blockSize * i;
 
@@ -59,7 +59,7 @@ void* MemoryPool::Reserve(std::size_t memSize)
 	//We start iterating from the last added memory, as it is more likely to be free
 	MemoryBlock* next = blockCursor->next;
 	bool blockAvailable = false;
-	uint checkedBlocks = 0;
+	uint checkedBlocks = 0u;
 
 	while (checkedBlocks < totalBlocks && !blockAvailable)
 	{
@@ -118,7 +118,7 @@ void* MemoryPool::Reserve(std::size_t memSize)
 	if (!blockAvailable)
 	{
 		std::string output = DumpPoolState();
-		Archive::Write("MemoryStateDump.txt", output.c_str(), output.size());
+		Archive::Write("CrashMemoryStateDump.txt", output.c_str(), output.size());
 		ASSERT(blockAvailable, "Program ran out of memory!");
 	}
 #endif
@@ -173,9 +173,9 @@ void MemoryPool::Clear()
 {
 	//Flag all blocks as available
 	blockCursor = firstBlock;
-	for (uint i = 0; i < totalBlocks; ++i)
+	for (uint i = 0u; i < totalBlocks; ++i)
 	{
-		blockCursor->usedSize = 0;
+		blockCursor->usedSize = 0u;
 		blockCursor = blockCursor->next;
 	}
 	blockCursor = firstBlock;
@@ -187,9 +187,9 @@ std::string MemoryPool::DumpPoolState() const
 
 	MemoryBlock* blockIt = firstBlock;
 
-	for (uint i = 0; i < totalBlocks; i += 10)
+	for (uint i = 0u; i < totalBlocks; i += 10u)
 	{
-		for (uint b = 0; b < 10 && i+b < totalBlocks; ++b)
+		for (uint b = 0u; b < 10u && i+b < totalBlocks; ++b)
 		{
 			char output[16];
 #ifdef _DEBUG
@@ -200,7 +200,7 @@ std::string MemoryPool::DumpPoolState() const
 			ret.append(output);
 		}
 		ret.append("\n");
-		for (uint b = 0; b < 10 && blockIt; ++b)
+		for (uint b = 0u; b < 10u && blockIt; ++b)
 		{
 			char output[16];
 			sprintf_s(output, "Memory: %04i | ",blockIt->usedSize);
