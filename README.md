@@ -2,12 +2,15 @@
 
 
 **--- EXPLANATION OF THE PROGRAM ---**
-The program will test my approach to the memory pool against malloc in different situations and display a speed comparison.
+
+The will test my approach to the memory pool against malloc in different situations and display a speed comparison.
 Several tests will be run by default, trying to test the pool in different situations in order to evaluate its potential.
 The main tests run by default are the following:
+
     - <ins>Speed Test</ins>: It will allocate memory from the pool until it is (almost) full. This test will be run 4 times,
 		  testing big and small memory allocations, and releasing or not the memory after each allocation
 		  (mallocs happens to get speed up when freeing the memory right after allocation).
+		  
     - <ins>Random Allocation Test</ins>: Before starting any measurement, the test will allocate a variable percentage of the pool.
 		  Once this is done, it will start firing random allocations and deallocations at random places of the pool.
 	          This test will be run 4 times, testing big and small memory allocations, and different initial pool states.
@@ -15,18 +18,21 @@ Once all tests have been completed (4 speed tests and 4 random allocation speed 
 message, indicating the end of it.
 
 There are 2 other modes in which the program can be run:
+
     - <ins>Verbose mode</ins>: 	The program will allocate the memory of the pool in 2 different tests (one for big allocations, another one
 			       	for small ones) and fill it with meaningful data (explained later).
 				The test will then save the state of the pool in two files:
 				  - Pool State Dump: list of all the blocks and the amount of memory used by each block
 				  - Memory State Dump: a typical memory dump into a file. Each allocation done will be marked by <Start Alloc> and <End Alloc>.
 		  *It is desirable to execute this test in Debug, as the memory dump will be easier to read
+		  
     - <ins>Bruteforce mode</ins>: This test is designed to stress the pool under extreme circumstances.
 				  It will generate 100 pools of randomized blocks and block sizes, and run the default tests (explained above) on each pool.
 				  Even though the speed results can be read, the goal of this test is to find any possible errors in the pool during development.
 
 
 **--- INSTRUCTIONS ---**
+
     - There are a few command line options that can be sent to the program in order to execute its different modes.
       If no argument is specified, the program will run the default test (4 speed tests + 4 random allocation speed tests)
       with default pool paramaters (1024 blocks of 128 bytes). All arguments must include a value.
@@ -57,6 +63,7 @@ There are 2 other modes in which the program can be run:
 
 
 **--- DEVELOPMENT APPROACH ---**
+
 My main goal in this test was to create a memory pool that was (almost) as easy to use as malloc.
 This can be seen in the project as the only functions necessary to run the pool are Reserve and Free.
 The user will be fully in charge of managing the memory as he will simply receive and use void* when requesting / freeing memory.
@@ -92,6 +99,7 @@ To my surprise, this approach got things slower. The reason behind it is that th
 
 
 **--- CONCLUSIONS AND FURTHER IMPROVEMENTS ---**
+
 As I started this project I realized that a memory pool can be used in a very wide variety of situations.
 My goal then, was to create a set of tests that could stress the pool in very different situations and then compare the results with malloc.
 I ended up with some quite good tests, but I spent a lot more time than I intended developing them, specially the random test.
