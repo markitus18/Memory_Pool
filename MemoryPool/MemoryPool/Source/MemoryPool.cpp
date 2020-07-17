@@ -65,8 +65,9 @@ void* MemoryPool::Reserve(std::size_t memSize)
 	{
 		//We have reached the end of the array, start over
 		if (blockCursor == nullptr)
+		{
 			blockCursor = firstBlock;
-
+		}
 		//The current block is in use. Calculate the amount of blocks it is occupying and skip them
 		if (blockCursor->usedSize > 0)
 		{
@@ -131,11 +132,9 @@ void MemoryPool::FillUsedMemory(MemoryBlock* block, std::size_t memorySize)
 {
 	memoryInUse += memorySize;
 	
-	block->usedSize = memorySize;	
-	
 	while (memorySize > 0)
 	{
-		block->usedSize = memorySize;
+		block->usedSize = memorySize; //<-- this could be avoided for the blocks after the first one, but the insignificant cost is worth the debugging facilitation
 		block->blockSize > memorySize ? memorySize = 0 : memorySize -= block->blockSize;
 		block = block->next;
 	}
@@ -196,7 +195,7 @@ std::string MemoryPool::DumpPoolState() const
 #ifdef _DEBUG
 			sprintf_s(output, "Block:  %04i | ", (blockIt+b)->blockIndex);
 #else
-			sprintf_s(output, "Block:  %04i | ", blockIt);
+			sprintf_s(output, "Block:  %04i | ", i + b);
 #endif
 			ret.append(output);
 		}

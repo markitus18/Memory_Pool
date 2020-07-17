@@ -27,10 +27,10 @@
     <ClCompile Include="Source\Tests.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ThirdParty\getopt\getopt.c">
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Third_Party\getopt\getopt.c">
       <Filter>Third Party</Filter>
     </ClCompile>
-    <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MemoryBlock.h">
@@ -51,9 +51,9 @@
     <ClInclude Include="Source\Tests.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ThirdParty\getopt\getopt.h">
+    <ClInclude Include="Source\Defs.h" />
+    <ClInclude Include="Third_Party\getopt\getopt.h">
       <Filter>Third Party</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Defs.h" />
   </ItemGroup>
 </Project>
